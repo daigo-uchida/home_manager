@@ -75,7 +75,7 @@ class UserDetailView(APIView):
     
 
     def get(self,request, user_id):
-        TOKEN_LIFETIME_MINUTES = 5  # トークンの有効期限（分）
+        TOKEN_LIFETIME_MINUTES = 120  # トークンの有効期限（分）
 
         #ユーザー情報の取得
         try:

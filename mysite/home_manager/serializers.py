@@ -5,7 +5,7 @@ from .models import home_money
 class addMoneySerializer(serializers.ModelSerializer):
     class Meta:
         model = home_money
-        fields = ('user_id', 'money', 'category', 'title', 'money_comment')
+        fields = ('money_id','user_id','money', 'category', 'title', 'money_comment')
         extra_kwargs = {
             'user_id': {'required': True},
             'money': {'required': True},
@@ -40,7 +40,7 @@ class updateMoneySerializer(serializers.ModelSerializer):
             'title': {'required': True},
             'money_comment': {'required': False}
         }
-    
+
     def update(self, instance, validated_data):
         instance.money = validated_data.get('money', instance.money)
         instance.category = validated_data.get('category', instance.category)
@@ -48,6 +48,3 @@ class updateMoneySerializer(serializers.ModelSerializer):
         instance.money_comment = validated_data.get('money_comment', instance.money_comment)
         instance.save()
         return instance
-    
-
-    

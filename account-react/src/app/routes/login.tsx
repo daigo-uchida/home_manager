@@ -30,7 +30,7 @@ const Login = () => {
       })
       .catch((error) => {
         alert("ログインに失敗しました、IDとパスワードを確認してください");
-        setError("ログインに失敗しました。");
+        setError("ログインに失敗しました。" + error);
       });
   };
   useEffect(() => {
@@ -50,24 +50,22 @@ const Login = () => {
             <GoArrowLeft size={30} title="戻る" />
           </Link>
 
-          <form onSubmit={handleSubmit}>
-            <div className="inputtext">
-              <label htmlFor="user_id">ユーザーID:</label>
-              <input
-                type="text"
-                id="user_id"
-                value={user_id}
-                onChange={(e) => setUser_Id(e.target.value)}
-              />
+          <form onSubmit={handleSubmit} className="inputtext">
+            <label htmlFor="user_id">ユーザーID:</label>
+            <input
+              type="text"
+              id="user_id"
+              value={user_id}
+              onChange={(e) => setUser_Id(e.target.value)}
+            />
 
-              <label htmlFor="password">パスワード:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+            <label htmlFor="password">パスワード:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
             <button type="submit" className="submitButton">
               ログイン

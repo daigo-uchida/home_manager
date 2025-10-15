@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-
+import "@/components/styles/form.css";
 type EditProps = {
   moneyData: {
     money_id: number;
@@ -14,15 +14,15 @@ type EditProps = {
 };
 
 const EditMoneyForm: React.FC<EditProps> = ({ moneyData, onSave }) => {
-  const [formData, setFormData] = useState(moneyData);
+  const [MoneyData, setMoneyData] = useState(moneyData);
 
   {
-    /*フォームの値が変化したときに動作し値をformDataにコピーする関数*/
+    /*フォームの値が変化したときに動作し値をMoneyDataにコピーする関数*/
   }
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setMoneyData({ ...MoneyData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -32,64 +32,68 @@ const EditMoneyForm: React.FC<EditProps> = ({ moneyData, onSave }) => {
       "http://localhost:8000/home_manager/editMoney/" + moneyData.money_id;
     // APIにデータを送信
     console.log("APIパス:", apiPath);
+    console.log(moneyData);
     axios
       .put(apiPath, {
         money_id: moneyData.money_id,
-        money: formData.money,
-        category: formData.category,
-        title: formData.title,
-        money_comment: formData.money_comment,
+        money: MoneyData.money,
+        category: MoneyData.category,
+        title: MoneyData.title,
+        money_comment: MoneyData.money_comment,
       })
       .then((response) => {
         console.log("データが更新されました", response.data);
-        onSave(formData); // 編集されたデータを親コンポーネントに渡す
+        onSave(MoneyData); // 編集されたデータを親コンポーネントに渡す
       })
       .catch((error) => {
         console.error("データの更新に失敗しました", error);
       });
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        出費 :{" "}
+    <>
+      <h2>出費情報編集</h2>
+      <br />
+      <form onSubmit={handleSubmit} className="inputtext">
+        <label>出費 : </label>
         <input
           type="number"
           name="money"
-          value={formData.money}
+          placeholder="金額"
+          value={MoneyData.money}
           onChange={handleChange}
         ></input>
-      </label>
-      <br />
-      <label>
-        カテゴリー :{" "}
+        <br />
+        <label>カテゴリー : </label>
         <input
           type="text"
           name="category"
-          value={formData.category}
+          placeholder="20文字以内"
+          value={MoneyData.category}
           onChange={handleChange}
         ></input>
-      </label>
-      <br />
-      <label>
-        タイトル :{" "}
+        <br />
+        <label>タイトル : </label>
         <input
           type="text"
           name="title"
-          value={formData.title}
+          placeholder="20文字以内"
+          value={MoneyData.title}
           onChange={handleChange}
         ></input>
-      </label>
-      <br />
-      <label>
-        コメント :{" "}
+        <br />
+        <label>コメント : </label>
         <textarea
           name="money_comment"
-          value={formData.money_comment}
+          placeholder="100文字以内"
+          value={MoneyData.money_comment}
           onChange={handleChange}
+          className="textAria"
         ></textarea>
-      </label>
-      <button type="submit">保存</button>
-    </form>
+        <button type="submit" className="submitButton">
+          保存
+        </button>
+      </form>
+    </>
   );
 };
 export default EditMoneyForm;

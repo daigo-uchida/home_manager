@@ -11,11 +11,11 @@ import { FaTrash } from "react-icons/fa6";
 import ModalModel from "@/components/ui/ModalModel";
 import EditMoneyForm from "@/features/home/EditMoneyForm";
 import AddMoneyForm from "@/features/home/AddMoneyForm";
-import { MdOutlineDataArray, MdOutlineExitToApp } from "react-icons/md";
+import { MdOutlineExitToApp } from "react-icons/md";
 import DeleteModal from "@/features/home/DeleteModal";
 import CategoryFilter from "@/features/home/CategoryDatafilter";
 
-type MoneyData = {
+export type MoneyData = {
   money_id: number;
   money: number;
   category: string;
@@ -48,7 +48,9 @@ const Home = () => {
 
   const navigate = useNavigate();
   //ユニークなcategoryの一覧
-  const categorys = Array.from(new Set(userHomeList.map((c) => c.category)));
+  const categorys = Array.from(
+    new Set(userHomeList && userHomeList.map((c) => c.category))
+  );
 
   //編集アイコン押下
   const handleEditClick = (moneyData: MoneyData) => {
@@ -79,6 +81,7 @@ const Home = () => {
 
   // 新規保存の追加ボタン押下
   const handleAddMoneySave = (newData: MoneyData) => {
+    console.log(newData);
     if (!userHomeList) {
       setUserHomelist([newData]);
       setIsAddModalOpen(false);
@@ -88,7 +91,7 @@ const Home = () => {
       setUserHomelist([...userHomeList, newData]);
       setIsAddModalOpen(false);
       alert("新しい出費データを作成しました");
-      console.log("追加データ" + userHomeList);
+      console.log("追加データ" + newData);
     }
   };
 
@@ -154,7 +157,10 @@ const Home = () => {
         onClick={() => logout()}
         size={50}
       />
-      <h2>ようこそ、{nickname}さん</h2>
+      <div className="mypege">
+        <h2>ようこそ、{nickname}さん</h2>
+      </div>
+
       <h3>最近の支出</h3>
       {/* userHomeListが存在していたら表示する */}
       <div className="home-space">
@@ -172,20 +178,28 @@ const Home = () => {
                 <div className="home-box">
                   {/* 支出データの表示 */}
                   <h4>{moneyData.title}</h4>
-                  {/* 編集ボタン */}
-                  <FaPen
-                    className="editbutton"
-                    onClick={() => handleEditClick(moneyData)}
-                  />
+
                   <p>金額: {moneyData.money}円</p>
                   <p>カテゴリー:{moneyData.category}</p>
-                  <p>コメント: {moneyData.money_comment}</p>
-
-                  {/* 削除ボタン */}
-                  <FaTrash
-                    className="trash-button"
-                    onClick={() => handleDeleteMoney(moneyData)}
-                  />
+                  {moneyData.money_comment && (
+                    <p>コメント: {moneyData.money_comment}</p>
+                  )}
+                  <div className="actions-button">
+                    {/* 編集ボタン */}
+                    <div className="editbutton">
+                      <FaPen
+                        style={{ color: "white" }}
+                        onClick={() => handleEditClick(moneyData)}
+                      />
+                    </div>
+                    {/* 削除ボタン */}
+                    <div className="trash-button">
+                      <FaTrash
+                        style={{ color: "white" }}
+                        onClick={() => handleDeleteMoney(moneyData)}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))
@@ -232,6 +246,11 @@ const Home = () => {
           <DeleteModal
             moneyData={selectedData}
             onClose={() => setIsDeleteModalOpen(false)}
+            onDeleted={() =>
+              setUserHomelist(
+                userHomeList.filter((d) => d.money_id != selectedData.money_id)
+              )
+            }
           />
         )}
       </ModalModel>

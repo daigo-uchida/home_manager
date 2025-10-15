@@ -53,48 +53,46 @@ const Signup = () => {
             <GoArrowLeft size={30} title="戻る" />
           </Link>
 
-          <form onSubmit={handleSubmit} className="signupform">
-            <div className="inputtext">
-              <label htmlFor="user_id">ユーザーID:</label>
-              <input
-                type="text"
-                id="user_id"
-                value={user_id}
-                onChange={(e) => setUser_Id(e.target.value)}
-              />
+          <form onSubmit={handleSubmit} className="inputtext">
+            <label htmlFor="user_id">ユーザーID:</label>
+            <input
+              type="text"
+              id="user_id"
+              value={user_id}
+              onChange={(e) => setUser_Id(e.target.value)}
+            />
 
-              <label htmlFor="user_id">メールアドレス:</label>
-              <input
-                type="text"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+            <label htmlFor="user_id">メールアドレス:</label>
+            <input
+              type="text"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-              <label htmlFor="nickname">ニックネーム:</label>
-              <input
-                type="text"
-                id="nickname"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-              />
+            <label htmlFor="nickname">ニックネーム:</label>
+            <input
+              type="text"
+              id="nickname"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
 
-              <label htmlFor="password">パスワード:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <label htmlFor="password">パスワード:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-              <label htmlFor="password_confirm">パスワード確認:</label>
-              <input
-                type="password"
-                id="password_confirm"
-                value={password_confirmation}
-                onChange={(e) => setPassword_Confirm(e.target.value)}
-              />
-            </div>
+            <label htmlFor="password_confirm">パスワード確認:</label>
+            <input
+              type="password"
+              id="password_confirm"
+              value={password_confirmation}
+              onChange={(e) => setPassword_Confirm(e.target.value)}
+            />
 
             <button type="submit" className="submitButton">
               登録

@@ -12,7 +12,6 @@ from django.utils import timezone
 """新規登録"""
 class addMoneyView(APIView):
 
-
     def post(self,request, *args, **kwargs):
         serializer = addMoneySerializer(data=request.data)
         
@@ -24,11 +23,11 @@ class addMoneyView(APIView):
         except User.DoesNotExist:
             print("Not User found")
             return Response({"message": "Not User found"}, status=404)
-        
+
         if serializer.is_valid(raise_exception=True):
             # エラーなし
             try:
-                
+            
                 serializer.save() #DBに保存
                 print("データを保存しました")
             except Exception as e:
