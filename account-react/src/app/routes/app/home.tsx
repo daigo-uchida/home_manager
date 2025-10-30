@@ -15,6 +15,8 @@ import { MdOutlineExitToApp } from "react-icons/md";
 import DeleteModal from "@/features/home/DeleteModal";
 import CategoryFilter from "@/features/home/CategoryDatafilter";
 import { useModalStates } from "@/hooks/modalStates";
+import { userDataStates } from "@/hooks/userDataStates";
+
 export type MoneyData = {
   money_id: number;
   money: number;
@@ -22,21 +24,10 @@ export type MoneyData = {
   title: string;
   money_comment: string;
 };
+const { nickname, selectedData, userHomeList, selectedCategory } =
+  userDataStates();
 
 const Home = () => {
-  // ユーザーのニックネームを管理
-  // 初期値はゲスト
-  const [nickname, setNickname] = useState<string>("gest");
-
-  // 選択されたデータを管理
-  const [selectedData, setSelectData] = useState<MoneyData>();
-
-  // ユーザーホームデータの状態を管理
-  const [userHomeList, setUserHomelist] = useState<MoneyData[]>([]);
-
-  //選択したカテゴリーを管理
-  const [selectedCategory, setSelectedCategory] = useState("");
-
   // ナビゲーションフック
   const navigate = useNavigate();
 
@@ -48,7 +39,7 @@ const Home = () => {
   //編集アイコン押下
   const handleEditClick = (moneyData: MoneyData) => {
     console.log("編集アイコンが押されました", moneyData);
-    setSelectData(moneyData);
+    userDataStates().setSelectData(moneyData);
     useModalStates().setIsEditModalOpen(true);
   };
 
@@ -62,7 +53,7 @@ const Home = () => {
     const updatedList = userHomeList.map((data) =>
       data.money_id === updatedData.money_id ? updatedData : data
     );
-    setUserHomelist(updatedList);
+    userDataStates().setUserHomelist(updatedList);
     useModalStates().setIsEditModalOpen(false);
   };
 
@@ -76,12 +67,12 @@ const Home = () => {
   const handleAddMoneySave = (newData: MoneyData) => {
     console.log(newData);
     if (!userHomeList) {
-      setUserHomelist([newData]);
+      userDataStates().setUserHomelist([newData]);
       useModalStates().setIsAddModalOpen(false);
       console.log("新しい" + userHomeList);
       return;
     } else {
-      setUserHomelist([...userHomeList, newData]);
+      userDataStates().setUserHomelist([...userHomeList, newData]);
       useModalStates().setIsAddModalOpen(false);
       alert("新しい出費データを作成しました");
       console.log("追加データ" + newData);
@@ -91,7 +82,7 @@ const Home = () => {
   const handleDeleteMoney = (Deletemoney: MoneyData) => {
     console.log("削除アイコンが押されました", Deletemoney);
     // 削除モーダルを開く
-    setSelectData(Deletemoney);
+    userDataStates().setSelectData(Deletemoney);
     useModalStates().setIsDeleteModalOpen(true);
   };
   // ログアウト関数
@@ -111,7 +102,7 @@ const Home = () => {
     const user_id = sessionStorage.getItem("user_id");
     const nickname = sessionStorage.getItem("nickname");
 
-    setNickname(nickname || "ゲスト");
+    userDataStates().setNickname(nickname || "ゲスト");
     if (!user_id) {
       alert("ユーザーIDが見つかりません。ログインしてください。");
       logout();
@@ -125,9 +116,9 @@ const Home = () => {
         if (response.status === 200) {
           if (response.data.length === 0) {
             console.log("データが存在しません");
-            setUserHomelist([]);
+            userDataStates().setUserHomelist([]);
           }
-          setUserHomelist(response.data);
+          userDataStates().setUserHomelist(response.data);
         } else {
           console.error("データの取得に失敗しました", response.status);
           alert("データの取得に失敗しました。再度ログインしてください。");
@@ -160,7 +151,7 @@ const Home = () => {
         {/* カテゴリーフィルター */}
         <CategoryFilter
           categorys={categorys}
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={userDataStates().setSelectedCategory}
         />
 
         <div className="home-data">
