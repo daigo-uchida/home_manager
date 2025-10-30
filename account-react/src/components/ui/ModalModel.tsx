@@ -6,15 +6,14 @@ type ModalModelProps = {
   onClose: () => void;
   children: React.ReactNode;
 };
-const ModalModel: React.FC<ModalModelProps> = ({
-  isOpen,
-  onClose,
-  children,
-}) => {
+const ModalModel = (props: ModalModelProps) => {
+  const { isOpen, onClose, children } = props;
   if (!isOpen) return null;
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation}>
+    <div className="modal">
+      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {/*子のイベントを親に伝えないようにする*/}
         <button className="modal-close" onClick={onClose}>
           x
         </button>

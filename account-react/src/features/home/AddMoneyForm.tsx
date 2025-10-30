@@ -9,7 +9,7 @@ type AddMoneyFormProps = {
   onSave: (newData: AddMoneyFormProps["moneyData"]) => void;
 };
 
-const AddMoneyForm: React.FC<AddMoneyFormProps> = ({ onSave }) => {
+const AddMoneyForm: React.FC<AddMoneyFormProps> = ({ moneyData, onSave }) => {
   const {
     register,
     handleSubmit,

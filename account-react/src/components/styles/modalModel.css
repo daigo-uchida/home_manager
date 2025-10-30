@@ -1,34 +1,49 @@
-/* 背景 */
-.modal-overlay{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100vw;
-    height:100vh;
-    background-color:rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index:1000;
+/* 背景全体を覆うコンテナ（モーダル全体） */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* 背景スクロール防止 */
+  z-index: 1000;
 }
-/* モーダル中身 */
-.modal-content{
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    min-width: 300px;
-    max-width: 500px;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+/* オーバーレイ部分（クリックで閉じる領域） */
+.modal-overlay {
+  position: fixed; /* absoluteではなくfixedに変更 */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* コンテンツより一段下 */
 }
+
+/* モーダルの中身 */
+.modal-content {
+  position: fixed; /* absoluteではなくfixed */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 中央配置 */
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  max-width: 500px;
+  z-index: 1001; /* overlayより上 */
+  max-height: 90vh;
+  overflow-y: auto; /* コンテンツが長いときだけスクロール */
+}
+
 /* 閉じるボタン */
-.modal-close{
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5rem;
-    border :none;
-    background: none;
-    cursor: pointer;
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
 }

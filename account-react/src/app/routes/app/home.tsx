@@ -14,7 +14,7 @@ import AddMoneyForm from "@/features/home/AddMoneyForm";
 import { MdOutlineExitToApp } from "react-icons/md";
 import DeleteModal from "@/features/home/DeleteModal";
 import CategoryFilter from "@/features/home/CategoryDatafilter";
-
+import { useModalStates } from "@/hooks/modalStates";
 export type MoneyData = {
   money_id: number;
   money: number;
@@ -31,22 +31,15 @@ const Home = () => {
   // 選択されたデータを管理
   const [selectedData, setSelectData] = useState<MoneyData>();
 
-  // 編集モーダルの開閉状態を管理
-  const [editModalIsOpen, setIsEditModalOpen] = useState(false);
-
-  // 新規追加モーダルの開閉状態を管理
-  const [addModalIsOpen, setIsAddModalOpen] = useState(false);
-
-  // 削除モーダルの開閉状態を管理
-  const [deleteModalIsOpen, setIsDeleteModalOpen] = useState(false);
-
   // ユーザーホームデータの状態を管理
   const [userHomeList, setUserHomelist] = useState<MoneyData[]>([]);
 
   //選択したカテゴリーを管理
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  // ナビゲーションフック
   const navigate = useNavigate();
+
   //ユニークなcategoryの一覧
   const categorys = Array.from(
     new Set(userHomeList && userHomeList.map((c) => c.category))
@@ -56,7 +49,7 @@ const Home = () => {
   const handleEditClick = (moneyData: MoneyData) => {
     console.log("編集アイコンが押されました", moneyData);
     setSelectData(moneyData);
-    setIsEditModalOpen(true);
+    useModalStates().setIsEditModalOpen(true);
   };
 
   //編集保存
@@ -70,13 +63,13 @@ const Home = () => {
       data.money_id === updatedData.money_id ? updatedData : data
     );
     setUserHomelist(updatedList);
-    setIsEditModalOpen(false);
+    useModalStates().setIsEditModalOpen(false);
   };
 
   // 新規追加ボタン押下
   const handleAddMoney = () => {
     console.log("新規追加ボタンが押されました");
-    setIsAddModalOpen(true);
+    useModalStates().setIsAddModalOpen(true);
   };
 
   // 新規保存の追加ボタン押下
@@ -84,12 +77,12 @@ const Home = () => {
     console.log(newData);
     if (!userHomeList) {
       setUserHomelist([newData]);
-      setIsAddModalOpen(false);
+      useModalStates().setIsAddModalOpen(false);
       console.log("新しい" + userHomeList);
       return;
     } else {
       setUserHomelist([...userHomeList, newData]);
-      setIsAddModalOpen(false);
+      useModalStates().setIsAddModalOpen(false);
       alert("新しい出費データを作成しました");
       console.log("追加データ" + newData);
     }
@@ -99,7 +92,7 @@ const Home = () => {
     console.log("削除アイコンが押されました", Deletemoney);
     // 削除モーダルを開く
     setSelectData(Deletemoney);
-    setIsDeleteModalOpen(true);
+    useModalStates().setIsDeleteModalOpen(true);
   };
   // ログアウト関数
   const logout = () => {
@@ -213,8 +206,8 @@ const Home = () => {
       <IoIosAddCircle className="addbutton" onClick={() => handleAddMoney()} />
       {/* 編集モーダル */}
       <ModalModel
-        isOpen={editModalIsOpen}
-        onClose={() => setIsEditModalOpen(false)}
+        isOpen={useModalStates().editModalIsOpen}
+        onClose={() => useModalStates().setIsEditModalOpen(false)}
       >
         {selectedData && (
           <EditMoneyForm moneyData={selectedData} onSave={handleUpdateSave} />
@@ -222,8 +215,8 @@ const Home = () => {
       </ModalModel>
       {/* 新規追加モーダル */}
       <ModalModel
-        isOpen={addModalIsOpen}
-        onClose={() => setIsAddModalOpen(false)}
+        isOpen={useModalStates().addModalIsOpen}
+        onClose={() => useModalStates().setIsAddModalOpen(false)}
       >
         <AddMoneyForm
           moneyData={{
@@ -233,22 +226,24 @@ const Home = () => {
             title: "",
             money_comment: "",
           }}
-          onSave={(newData) => handleAddMoneySave(newData)}
+          onSave={handleAddMoneySave}
         />
       </ModalModel>
 
       {/* 出費データ削除確認 */}
       <ModalModel
-        isOpen={deleteModalIsOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
+        isOpen={useModalStates().deleteModalIsOpen}
+        onClose={() => useModalStates().setIsDeleteModalOpen(false)}
       >
         {selectedData && (
           <DeleteModal
             moneyData={selectedData}
-            onClose={() => setIsDeleteModalOpen(false)}
+            onClose={() => useModalStates().setIsDeleteModalOpen(false)}
             onDeleted={() =>
-              setUserHomelist(
-                userHomeList.filter((d) => d.money_id != selectedData.money_id)
+              useModalStates().setUserHomelist(
+                useModalStates().userHomeList.filter(
+                  (d) => d.money_id != selectedData.money_id
+                )
               )
             }
           />
