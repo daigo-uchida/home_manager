@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { MoneyData } from "@/app/routes/app/home";
 
-export const userDataStates = () => {
+export const useUserDataStates = () => {
 // ユーザーのニックネームを管理
   // 初期値はゲスト
   const [nickname, setNickname] = useState<string>("gest");
