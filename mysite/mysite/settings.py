@@ -144,3 +144,9 @@ AUTH_USER_MODEL = 'accounts.User' #ユーザーモデルの指定
 DEBUG = True
 
 
+# settings.py
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_CONNECT_SRC = ("'self'", "http://localhost:5173", "ws://localhost:5173")
+CSP_SCRIPT_SRC = ("'self'", "http://localhost:5173")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "http://localhost:5173")
