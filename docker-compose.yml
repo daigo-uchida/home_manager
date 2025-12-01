@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfiles/backend/Dockerfile
+    container_name: django-backend
+    command: gunicorn --bind 0.0.0.0:8000 mysite.wsgi:application
+    volumes:
+      - ./mysite:/app
+    expose:
+      - "8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfiles/frontend/Dockerfile
+    container_name: react-frontend
+    command: npm run build
+    volumes:
+      - ./account-react:/app
+    expose:
+      - "3000"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./account-react/build:/usr/share/nginx/html
+    depends_on:
+      - backend
+      - frontend
