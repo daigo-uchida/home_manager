@@ -15,4 +15,13 @@ dist-ssr
 *.sw?
 
 #python-venv
-*-venv/*
+venv/*
+!.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+ENV/
+env.bak/
+venv.bak/
