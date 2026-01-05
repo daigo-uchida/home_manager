@@ -15,7 +15,7 @@ dist-ssr
 *.sw?
 
 #python-venv
-venv/*
+*venv*/*
 !.gitignore
 __pycache__/
 *.pyc
@@ -25,3 +25,9 @@ env/
 ENV/
 env.bak/
 venv.bak/
+.env
+.env.local
+.env.*.local
+
+.git
+build

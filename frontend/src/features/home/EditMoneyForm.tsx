@@ -28,8 +28,7 @@ const EditMoneyForm: React.FC<EditProps> = ({ moneyData, onSave }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // フォームのデフォルトの送信動作を防ぐ(ページを再読み込みしない)
 
-    const apiPath =
-      "http://localhost:8000/home_manager/editMoney/" + moneyData.money_id;
+    const apiPath = "/api/home_manager/editMoney/" + moneyData.money_id;
     // APIにデータを送信
     console.log("APIパス:", apiPath);
     console.log(moneyData);

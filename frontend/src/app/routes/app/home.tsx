@@ -107,7 +107,7 @@ const Home = () => {
       return;
     }
     console.log("ユーザーID:", user_id);
-    const apiUrl = "http://localhost:8000/home_manager/view/" + user_id;
+    const apiUrl = "/api/home_manager/view/" + user_id;
     axios
       .get(apiUrl)
       .then((response) => {

@@ -22,7 +22,7 @@ const AddMoneyForm: React.FC<AddMoneyFormProps> = ({ moneyData, onSave }) => {
   const onSubmit: SubmitHandler<MoneyData> = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/home_manager/register/",
+        "/api/home_manager/register/",
         {
           user_id: sessionStorage.getItem("user_id"),
           ...data,

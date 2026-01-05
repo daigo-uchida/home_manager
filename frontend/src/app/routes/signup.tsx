@@ -27,16 +27,13 @@ const Signup = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://localhost:8000/accounts/signup/",
-        {
-          user_id: user_id,
-          email: email,
-          nickname: nickname,
-          password: password,
-          password_confirmation: password_confirmation,
-        }
-      );
+      const response = await axios.post("/api/accounts/signup/", {
+        user_id: user_id,
+        email: email,
+        nickname: nickname,
+        password: password,
+        password_confirmation: password_confirmation,
+      });
       alert("アカウントが作成されました");
       navigate("/login");
     } catch (error) {

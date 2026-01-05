@@ -1,5 +1,7 @@
-django
 markdown
 django-filter
 djangorestframework
 django-cors-headers
+Django>=5.0
+mysqlclient>=2.2.1
+gunicorn

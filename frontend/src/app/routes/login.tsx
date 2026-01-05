@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault(); //フォームの送信をキャンセル
 
     axios
-      .post("http://localhost:8000/accounts/login/", {
+      .post("/api/accounts/login/", {
         user_id: user_id,
         password: password,
       })

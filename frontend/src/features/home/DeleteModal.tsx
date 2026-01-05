@@ -21,8 +21,7 @@ const DeleteModal: React.FC<DeleteModelProps> = ({
   const handleDelete = async () => {
     setLoading(true);
     setError(null);
-    const apiPath =
-      "http://localhost:8000/home_manager/deleteMoney/" + moneyData.money_id;
+    const apiPath = "/api/home_manager/deleteMoney/" + moneyData.money_id;
     try {
       await axios.delete(apiPath);
       if (onDeleted) onDeleted();
