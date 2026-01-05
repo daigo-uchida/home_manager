@@ -15,6 +15,8 @@ services:
       --threads 2
     expose:
       - "8000"
+    volumes:
+      - static_volume:/app/mysite/staticfiles
 
   nginx:
     build:
@@ -24,3 +26,5 @@ services:
       - "80:80"
     depends_on:
       - backend
+    volumes:
+      - static_volume:/usr/share/nginx/static
