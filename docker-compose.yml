@@ -28,3 +28,6 @@ services:
       - backend
     volumes:
       - static_volume:/usr/share/nginx/static
+
+volumes:
+  static_volume:
