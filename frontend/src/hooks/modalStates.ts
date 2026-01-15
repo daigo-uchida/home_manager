@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { MoneyData } from "@/app/routes/app/home";
 
 export const useModalStates = () => {
@@ -17,6 +17,8 @@ export const useModalStates = () => {
 	// ユーザーホームデータの状態を管理
 	const [userHomeList, setUserHomelist] = useState<MoneyData[]>([]);
 
+	const [isUserInfoModalOpen, setIsUserInfoModalOpen] = useState(false);
+
 	return {
 		selectedData,
 		setSelectData,
@@ -28,5 +30,7 @@ export const useModalStates = () => {
 		setIsDeleteModalOpen,
 		userHomeList,
 		setUserHomelist,
+		isUserInfoModalOpen,
+		setIsUserInfoModalOpen,
 	};
 };

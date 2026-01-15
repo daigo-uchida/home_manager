@@ -6,7 +6,6 @@ export const handleEditClick = (
 	setSelectData: (data: MoneyData) => void,
 	setIsEditModalOpen: (open: boolean) => void
 ) => {
-	console.log("編集アイコンが押されました", moneyData);
 	setSelectData(moneyData);
 	setIsEditModalOpen(true);
 };

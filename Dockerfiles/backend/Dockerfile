@@ -22,3 +22,9 @@ COPY mysite ./mysite
 
 # gunicorn が使うポート
 EXPOSE 8000
+
+# Django プロジェクト本体
+COPY mysite ./mysite
+
+# サービス起動コマンド
+CMD ["gunicorn", "--chdir", "mysite", "mysite.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4", "--threads", "2"]

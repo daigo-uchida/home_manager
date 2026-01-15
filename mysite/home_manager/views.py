@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import addMoneySerializer, moneyDataViewSerializer
+from .serializers import addMoneySerializer, moneyDataViewSerializer, updateMoneySerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import home_money
 from accounts.models import User
@@ -60,7 +60,7 @@ class moneyDataView(APIView):
                 return Response({"message": "Token is expired"}, status=401)
             
             # ユーザーの家計情報を取得
-            money_data = home_money.objects.filter(user_id__user_id=user_id)
+            money_data = home_money.objects.filter(user_id__user_id=user_id).order_by('-money_id')[:50]  # 降順50件まで取得
             
             if not money_data:
                 return Response(status=status.HTTP_200_OK)
@@ -80,7 +80,7 @@ class updateMoneyView(APIView):
         except home_money.DoesNotExist:
             return Response({"message": "Money record not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = addMoneySerializer(money_instance, data=request.data, partial=True)
+        serializer = updateMoneySerializer(money_instance, data=request.data, partial=True)
 
         if serializer.is_valid(raise_exception=True):
             try:

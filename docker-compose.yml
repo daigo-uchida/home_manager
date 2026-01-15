@@ -1,5 +1,6 @@
 services:
   backend:
+    image: 723346695849.dkr.ecr.ap-northeast-1.amazonaws.com/home_manager/repository/django-backend
     env_file:
       - .env
     build:
@@ -11,14 +12,13 @@ services:
       --chdir mysite
       mysite.wsgi:application
       --bind 0.0.0.0:8000
-      --workers 4
+      --workers 2
       --threads 2
     expose:
       - "8000"
-    volumes:
-      - static_volume:/app/mysite/staticfiles
 
   nginx:
+    image: 723346695849.dkr.ecr.ap-northeast-1.amazonaws.com/home_manager/repository/nginx-frontend
     build:
       context: .
       dockerfile: Dockerfiles/frontend/Dockerfile
@@ -26,8 +26,3 @@ services:
       - "80:80"
     depends_on:
       - backend
-    volumes:
-      - static_volume:/usr/share/nginx/static
-
-volumes:
-  static_volume:

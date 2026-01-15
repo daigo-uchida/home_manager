@@ -20,7 +20,7 @@ const Signup = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault(); //フォームの送信をキャンセル
-		console.log(user_id + email + password + password_confirmation + nickname);
+
 		if (password !== password_confirmation) {
 			// パスワードと確認用パスワードが一致しない場合の処理
 			alert("パスワードが一致しません");
@@ -62,7 +62,7 @@ const Signup = () => {
 							onChange={(e) => setUser_Id(e.target.value)}
 						/>
 
-						<label htmlFor="user_id">メールアドレス:</label>
+						<label htmlFor="user_id">メールアドレス(偽のやつでいいよ):</label>
 						<input
 							type="text"
 							id="email"

@@ -30,21 +30,29 @@ const EditMoneyForm: React.FC<EditProps> = ({ moneyData, onSave }) => {
 
 		const apiPath = "/api/home_manager/editMoney/" + moneyData.money_id + "/";
 		// APIにデータを送信
-		console.log(moneyData);
+
 		axios
-			.put(apiPath, {
-				money_id: MoneyData.money_id,
-				money: MoneyData.money,
-				category: MoneyData.category,
-				title: MoneyData.title,
-				money_comment: MoneyData.money_comment,
-			})
+			.put(
+				apiPath,
+				{
+					money_id: MoneyData.money_id,
+					money: MoneyData.money,
+					category: MoneyData.category,
+					title: MoneyData.title,
+					money_comment: MoneyData.money_comment,
+				},
+				{
+					headers: {
+						Authorization: `Token ${sessionStorage.getItem("token")}`,
+					},
+				}
+			)
 			.then((response) => {
-				console.log("データが更新されました", response.data);
 				onSave(MoneyData); // 編集されたデータを親コンポーネントに渡す
+				alert("支出データを更新しました");
 			})
 			.catch((error) => {
-				console.error("データの更新に失敗しました", error);
+				alert("支出データの更新に失敗しました");
 			});
 	};
 	return (

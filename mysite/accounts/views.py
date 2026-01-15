@@ -9,11 +9,12 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from datetime import timedelta
 from django.utils import timezone
+from rest_framework.permissions import AllowAny
 
 
 """新規登録"""
 class RegisterView(APIView):
-    
+    permission_classes = [AllowAny]
     authentication_classes = []
     @staticmethod
     def post(request, *args, **kwargs):
@@ -37,6 +38,7 @@ class RegisterView(APIView):
 """ログイン"""
 class LoginView(GenericAPIView):
     
+    permission_classes = [AllowAny]
     authentication_classes = []
 
     serializer_class = LoginSerializer
@@ -51,7 +53,7 @@ class LoginView(GenericAPIView):
             user = authenticate(request, username = user_id, password = password)
 
             if user is None:
-                return Response({'error':2, 'message': '認証失敗'})
+                return Response({'error':2, 'message': '認証失敗'}, status=HTTP_401_UNAUTHORIZED)
             token, created = Token.objects.get_or_create(user=user)  # トークンを取得または作成
             if not created:
                 # トークンが既に存在する場合は、トークンを更新
@@ -68,11 +70,13 @@ class LoginView(GenericAPIView):
                 'user_id':user.user_id,
             },status=HTTP_200_OK)
         
-        return Response( serializer.errors, status=HTTP_400_BAD_REQUEST )
+        return Response( serializer.errors, status=HTTP_401_UNAUTHORIZED) 
     
 """ユーザー情報取得"""
 class UserDetailView(APIView):
     
+    permission_classes = [AllowAny]
+    authentication_classes = []
 
     def get(self,request, user_id):
         TOKEN_LIFETIME_MINUTES = 120  # トークンの有効期限（分）
@@ -108,6 +112,9 @@ class UserDetailView(APIView):
 
 """ユーザー情報更新"""
 class UserUpdateView(APIView):
+
+    permission_classes = [AllowAny]
+    authentication_classes = []
 
     def patch(self ,request, user_id):
         #ユーザー情報取得
@@ -162,7 +169,7 @@ class CloseAccountView(APIView):
     
     permission_classes = [IsAuthenticated]
     
-    def post(self, request, user_id):
+    def delete(self, request, user_id):
         #アカウント削除処理
         user = User.objects.filter(user_id=user_id).first()
         if not user:

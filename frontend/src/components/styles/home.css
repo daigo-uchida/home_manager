@@ -32,18 +32,25 @@
     font-size: 80px;
     position: fixed;
     bottom: 20px;
-    right: 100px;
+    right: 95px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
 
-
+}.graphbutton{
+    font-size: 70px;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 .actions-button{
     display: flex;
     flex-direction: row;
     margin: 10px;
-    gap:10px
+    gap:10px;
 }
 .trash-button{
     cursor:pointer;
@@ -68,4 +75,32 @@
 }
 .logout-icon:hover{
     background-color: rgb(230, 28, 28);
+}
+
+
+/* 親コンテナの絶対配置をやめる */
+.user-info-section {
+    display: block;      
+    margin-top: 10px;    
+    margin-bottom: 20px; 
+    text-align: left;   
+    background-color: black;
+    width: fit-content;
+    padding: 7px 13px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* 子要素をインラインブロックにして横に並べる */
+.user-info-icon,
+.user-nickname {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* アイコンと名前の間の隙間 */
+.user-nickname {
+    margin: 0 0 0 10px; 
+    font-size: 1.2rem;     
 }
